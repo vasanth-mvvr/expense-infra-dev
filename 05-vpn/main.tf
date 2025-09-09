@@ -9,7 +9,7 @@ module "vpn" {
   source = "terraform-aws-modules/ec2-instance/aws"
   key_name = aws_key_pair.keys.key_name
   name = "${var.project_name}-${var.environment}-vpn"
-  instance_type = t3.micro
+  instance_type = "t2.micro"
   ami = data.aws_ami.ami_info.id
   vpc_security_group_ids = [data.aws_ssm_parameter.vpn_sg_id.value]
   subnet_id = local.public_subnet_id
