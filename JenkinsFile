@@ -64,9 +64,9 @@ pipeline{
         //     }
         // }
         post{
+            
             always {
                 echo 'hello'
-             //   deleteDir()
             }
             success{
                 echo 'success'
