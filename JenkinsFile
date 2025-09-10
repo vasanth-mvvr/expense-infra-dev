@@ -56,13 +56,13 @@ pipeline{
         //             params.action == 'destroy'
         //         }
         //     }
-        //     steps{
-        //         sh """
-        //         cd 01-vpc
-        //         terraform destroy -auto-approve
-        //         """
-        //     }
-        // }
+            steps{
+                sh """
+                cd 01-vpc
+                terraform destroy -auto-approve
+                """
+            }
+        }
     }
         post{
             
