@@ -7,55 +7,55 @@ pipeline{
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
-    // parameters{
-    //     choice(name: 'action' choice: ['apply','destroy'] description: 'please enter the choice to apply or destroy') 
-    // }
+    parameters{
+        choice(name: 'action' choice: ['apply','destroy'] description: 'please enter the choice to apply or destroy') 
+    }
     stages{
-        // stage("INIT"){
-        //     steps{
-        //         sh """
-        //         cd 01-vpc
-        //         terraform init -reconfigure
+        stage("INIT"){
+            steps{
+                sh """
+                cd 01-vpc
+                terraform init -reconfigure
                 
-        //         """
-        //     }
-        // }
-        // stage("PLAN"){
-        //     // when{
-        //     //     expression{
-        //     //         params.action == 'apply'
-        //     //     }
-        //     // }
-        //     steps{
-        //         sh """
-        //         cd 01-vpc
-        //         terraform plan
-        //         """
-        //     }
-        // }
-        // stage("DEPLOY"){
-        //     // when{
-        //     //     expression{
-        //     //         params.action == 'apply'
-        //     //     }
-        //     // }
-        //     // input{
-        //     //     message "should we continue ?"
-        //     //     ok "yes, we should."
-        //     // }
-        //     steps{
-        //         sh """
-        //         cd 01-vpc
-        //         terraform apply -auto-approve
-        //         """
-        //     }
-        // }
+                """
+            }
+        }
+        stage("PLAN"){
+            when{
+                expression{
+                    params.action == 'apply'
+                }
+            }
+            steps{
+                sh """
+                cd 01-vpc
+                terraform plan
+                """
+            }
+        }
+        stage("DEPLOY"){
+            when{
+                expression{
+                    params.action == 'apply'
+                }
+            }
+            input{
+                message "should we continue ?"
+                ok "yes, we should."
+            }
+            steps{
+                sh """
+                cd 01-vpc
+                terraform apply -auto-approve
+                """
+            }
+        }
          stage("DESTROY"){
-        //     when{
-        //         expression{
-        //             params.action == 'destroy'
-        //         }
-        //     }
+            when{
+                expression{
+                    params.action == 'destroy'
+                }
+            }
             steps{
                 sh """
                 cd 01-vpc
@@ -67,7 +67,7 @@ pipeline{
         post{
             
             always {
-                echo 'hello'
+                deleteDir()
             }
             success{
                 echo 'success'
